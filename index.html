@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>すいそうカウントダウン</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:"Hiragino Maru Gothic ProN","Rounded Mplus 1c",system-ui,sans-serif;color:#24506b;min-height:100vh;background:linear-gradient(180deg,#d9f4ff 0%,#9fdcf0 55%,#6fbfd8 100%);overflow-x:hidden}
+.wrap{max-width:720px;margin:0 auto;padding:28px 16px 60px;position:relative;z-index:1}
+h1{text-align:center;font-size:1.7rem;margin:.2em 0}.sub{text-align:center;opacity:.8;margin:0 0 20px}
+.card{background:rgba(255,255,255,.72);backdrop-filter:blur(6px);border-radius:22px;padding:18px 20px;margin:14px 0;box-shadow:0 6px 20px rgba(30,90,120,.12)}
+.big{font-size:2.6rem;font-weight:700;text-align:center;color:#1d7fa6}.big small{font-size:1rem}
+.ms{display:flex;align-items:center;gap:14px}.ms .ic{font-size:2.4rem}.ms h2{margin:0;font-size:1.1rem}
+.cd{font-size:1.5rem;font-weight:700;color:#e0727f}.ok{font-size:1.4rem;font-weight:700;color:#2aa876}
+.tag{display:inline-block;font-size:.72rem;background:#fff1c9;color:#a07400;border-radius:8px;padding:1px 7px;margin-left:6px}
+.bar{height:18px;background:#e3f3f8;border-radius:10px;overflow:hidden;margin:10px 0 4px}.fill{height:100%;background:linear-gradient(90deg,#7fd8c4,#4fb3e0);border-radius:10px;transition:width .6s}
+.row{display:flex;justify-content:space-between;font-size:.8rem;opacity:.75}
+ul{padding-left:1.2em;margin:.4em 0}li{margin:.35em 0}
+.bub{position:fixed;bottom:-40px;border-radius:50%;background:rgba(255,255,255,.5);animation:up linear infinite;z-index:0}
+@keyframes up{to{transform:translateY(-110vh)}}
+footer{text-align:center;font-size:.75rem;opacity:.7;margin-top:20px}
+</style></head><body>
+<div class="wrap">
+<h1>🐠 すいそうカウントダウン 🦐</h1><p class="sub">立ち上げ日：2026年10月12日</p>
+<div class="card"><div style="text-align:center">立ち上げから</div><div class="big" id="elapsed">-</div></div>
+<div class="card"><h2 style="margin:0;font-size:1.1rem">🔄 水づくり（窒素サイクル）<span class="tag">目安</span></h2>
+<div class="bar"><div class="fill" id="fill" style="width:0"></div></div><div class="row"><span>10/12 立ち上げ</span><span id="pct"></span><span>11/7 エビOK</span></div></div>
+<div class="card ms"><div class="ic">🪨</div><div><h2>石と水草を入れる<span class="tag">10/17</span></h2><div id="layout"></div></div></div>
+<div class="card"><h2 style="margin:0;font-size:1.1rem">🪨 石</h2><ul>
+<li><b>主役</b>：8〜12cm（拳2個分くらい）を1個</li>
+<li><b>脇役</b>：4〜6cm（拳1個分以下）を2個</li>
+<li>水槽の高さの1/3〜1/2に収まるサイズ</li>
+<li>種類：溶岩石、風山石</li></ul>
+<h2 style="margin:12px 0 0;font-size:1.1rem">🌿 水草</h2><ul>
+<li><b>前景</b>：ウィローモス（1カップ）</li>
+<li><b>中景</b>：アヌビアス・ナナ・プチ（2株）</li>
+<li><b>後景</b>：ハイグロフィラ・ポリスペルマ（1束）</li></ul></div>
+<div class="card ms"><div class="ic">🐟</div><div><h2>ネオンテトラのお迎え<span class="tag">10/25</span></h2><div id="fish"></div></div></div>
+<div class="card ms"><div class="ic">🦐</div><div><h2>エビのお迎え<span class="tag">11/7</span></h2><div id="shrimp"></div></div></div>
+<div class="card"><h2 style="margin:0;font-size:1.1rem">🌿 いまのうちのポイント</h2><ul>
+<li>💧 <b>水換え</b>：週1回、3分の1くらいを目安に。新しい水はカルキ抜きを忘れずに。</li>
+<li>🧪 <b>水質チェック</b>：試験紙でアンモニア・亜硝酸を確認。どちらも0になったらお迎えのサイン。</li>
+<li>🍽️ <b>エサはひかえめに</b>：2〜3分で食べきれる量だけ。残りエサは水を汚す原因に。</li>
+<li>⏳ <b>あせらない</b>：日付はあくまで目安。水の状態を優先してね。</li></ul></div>
+<footer>日付はすべて目安です（日本時間で計算）</footer></div>
+<script>
+const T=s=>new Date(s+"T00:00:00+09:00").getTime();
+const S=T("2026-10-12"),L=T("2026-10-17"),F=T("2026-10-25"),H=T("2026-11-07"),D=864e5;
+function cd(t,el,msg){const r=t-Date.now();if(r<=0){el.innerHTML='<span class="ok">お迎えOK! 🎉</span><div style="font-size:.85rem">'+msg+'</div>';return}
+const d=Math.floor(r/D),h=Math.floor(r%D/36e5),m=Math.floor(r%36e5/6e4);el.innerHTML='<span class="cd">あと '+d+'日 '+h+'時間 '+m+'分</span>'}
+function tick(){const n=Date.now(),e=Math.floor((n-S)/D);
+document.getElementById("elapsed").innerHTML=(n<S?"まもなく":(e+1)+"<small> 日目</small>");
+const p=Math.max(0,Math.min(100,(n-S)/(H-S)*100));document.getElementById("fill").style.width=p+"%";document.getElementById("pct").textContent=p.toFixed(0)+"%";
+cd(L,document.getElementById("layout"),"石と水草をレイアウトしよう");cd(F,document.getElementById("fish"),"水質を確認して、少しずつ迎えよう");cd(H,document.getElementById("shrimp"),"水合わせはゆっくり丁寧に");}
+tick();setInterval(tick,30000);
+for(let i=0;i<14;i++){const b=document.createElement("div");b.className="bub";const s=6+Math.random()*18;Object.assign(b.style,{width:s+"px",height:s+"px",left:Math.random()*100+"vw",animationDuration:8+Math.random()*12+"s",animationDelay:-Math.random()*15+"s"});document.body.appendChild(b)}
+</script></body></html>
